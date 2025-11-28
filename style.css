@@ -230,6 +230,7 @@ button:active {
   margin-bottom: 10px;
 }
 
+/* Each CGPA row */
 .cgpa-row {
   display: flex;
   align-items: center;
@@ -241,12 +242,9 @@ button:active {
   font-size: 13px;
 }
 
-.cgpa-label {
-  flex: 1;
-  color: #e5e7eb;
-}
-
-.cgpa-select {
+/* Subject name input */
+.cgpa-subject-input {
+  flex: 1.4;
   padding: 6px 8px;
   border-radius: 8px;
   border: 1px solid #374151;
@@ -255,10 +253,50 @@ button:active {
   font-size: 12px;
 }
 
-.cgpa-select:focus {
-  outline: 1px solid #3b82f6;
+.cgpa-subject-input::placeholder {
+  color: #6b7280;
 }
 
+/* Credits toggle */
+.credit-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  border: 1px solid #374151;
+  background: #020617;
+  flex-shrink: 0;
+}
+
+.credit-toggle {
+  border: none;
+  background: transparent;
+  padding: 3px 7px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 11px;
+  color: #9ca3af;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.credit-toggle.active {
+  background: rgba(34, 197, 94, 0.16);
+  color: #bbf7d0;
+}
+
+/* Grade select */
+.cgpa-select {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* Delete subject */
 .cgpa-delete {
   background: transparent;
   border: none;
@@ -271,6 +309,7 @@ button:active {
   color: #fecaca;
 }
 
+/* Bottom: buttons + result */
 .cgpa-actions {
   display: flex;
   justify-content: space-between;

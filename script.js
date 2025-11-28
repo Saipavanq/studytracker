@@ -14,7 +14,6 @@ const STORAGE_STREAK = "studyTracker_streak";
 let tasks = [];
 let streak = { count: 0, lastDate: null };
 
-// Load data from localStorage
 function loadData() {
   try {
     const savedTasks = JSON.parse(localStorage.getItem(STORAGE_TASKS));
@@ -34,7 +33,7 @@ function saveStreak() {
   localStorage.setItem(STORAGE_STREAK, JSON.stringify(streak));
 }
 
-// Streak helpers
+// ----- streak helpers -----
 function dateString(d) {
   return d.toISOString().slice(0, 10);
 }
@@ -80,7 +79,7 @@ function renderStreak() {
       : `🔥 You're on a ${streak.count}-day study streak!`;
 }
 
-// Task UI
+// ----- tasks UI -----
 function createTaskElement(task, index) {
   const li = document.createElement("li");
   li.className = "task-item";
@@ -136,7 +135,6 @@ function renderTasks() {
   });
 }
 
-// Add task
 function addTask() {
   const text = taskInput.value.trim();
   if (!text) return;
@@ -160,7 +158,7 @@ const addSubjectBtn = document.getElementById("addSubjectBtn");
 const calcCgpaBtn = document.getElementById("calcCgpaBtn");
 const cgpaResult = document.getElementById("cgpaResult");
 
-// Grade → points map
+// grade -> points
 const gradePoints = {
   S: 10,
   A: 9,
@@ -171,24 +169,40 @@ const gradePoints = {
   F: 4,
 };
 
-function createCgpaRow(initialCredits = 3, initialGrade = "S") {
+function createCgpaRow(initialCredits = 3, initialGrade = "S", initialName = "") {
   const row = document.createElement("div");
   row.className = "cgpa-row";
 
-  const label = document.createElement("div");
-  label.className = "cgpa-label";
-  label.textContent = "Subject";
+  // subject name
+  const subjectInput = document.createElement("input");
+  subjectInput.type = "text";
+  subjectInput.className = "cgpa-subject-input";
+  subjectInput.placeholder = "Subject name (e.g., DSA)";
+  subjectInput.value = initialName;
 
-  const creditSelect = document.createElement("select");
-  creditSelect.className = "cgpa-select cgpa-credit";
+  // credits toggle
+  const creditGroup = document.createElement("div");
+  creditGroup.className = "credit-toggle-group";
+
   [2, 3, 4].forEach((c) => {
-    const opt = document.createElement("option");
-    opt.value = c;
-    opt.textContent = `${c} credits`;
-    if (c === initialCredits) opt.selected = true;
-    creditSelect.appendChild(opt);
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "credit-toggle";
+    btn.textContent = `${c} cr`;
+    btn.dataset.credit = String(c);
+    if (c === initialCredits) btn.classList.add("active");
+
+    btn.addEventListener("click", () => {
+      creditGroup
+        .querySelectorAll(".credit-toggle")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+    });
+
+    creditGroup.appendChild(btn);
   });
 
+  // grade select
   const gradeSelect = document.createElement("select");
   gradeSelect.className = "cgpa-select cgpa-grade";
   ["S", "A", "B", "C", "D", "E", "F"].forEach((g) => {
@@ -199,16 +213,14 @@ function createCgpaRow(initialCredits = 3, initialGrade = "S") {
     gradeSelect.appendChild(opt);
   });
 
+  // delete button
   const delBtn = document.createElement("button");
   delBtn.className = "cgpa-delete";
   delBtn.textContent = "✖";
+  delBtn.addEventListener("click", () => row.remove());
 
-  delBtn.addEventListener("click", () => {
-    row.remove();
-  });
-
-  row.appendChild(label);
-  row.appendChild(creditSelect);
+  row.appendChild(subjectInput);
+  row.appendChild(creditGroup);
   row.appendChild(gradeSelect);
   row.appendChild(delBtn);
 
@@ -227,7 +239,11 @@ function calculateCgpa() {
   let totalPoints = 0;
 
   rows.forEach((row) => {
-    const credit = Number(row.querySelector(".cgpa-credit").value);
+    const activeCreditBtn = row.querySelector(".credit-toggle.active");
+    const credit = activeCreditBtn
+      ? Number(activeCreditBtn.dataset.credit)
+      : 0;
+
     const grade = row.querySelector(".cgpa-grade").value;
     const gp = gradePoints[grade] ?? 0;
 
@@ -244,12 +260,11 @@ function calculateCgpa() {
   cgpaResult.textContent = `Your CGPA is ${cgpa.toFixed(2)}`;
 }
 
-// Buttons for CGPA
 addSubjectBtn.addEventListener("click", () => createCgpaRow());
 calcCgpaBtn.addEventListener("click", calculateCgpa);
 
-// ---------- Initial load ----------
+// ---------- initial load ----------
 loadData();
 renderTasks();
 renderStreak();
-createCgpaRow(); // one default row on load
+createCgpaRow(); // one default row
