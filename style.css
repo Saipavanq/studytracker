@@ -19,7 +19,7 @@ body {
   color: #e5e7eb;
   padding: 26px 30px;
   border-radius: 24px;
-  width: min(480px, 95vw);
+  width: min(520px, 95vw);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
   border: 1px solid rgba(148, 163, 184, 0.15);
 }
@@ -105,7 +105,7 @@ button:active {
   box-shadow: 0 8px 18px rgba(59, 130, 246, 0.55);
 }
 
-/* Secondary button (for "Add Subject") */
+/* Secondary button */
 .secondary-btn {
   background: transparent;
   border: 1px solid #4b5563;
@@ -212,9 +212,33 @@ button:active {
   margin-top: 4px;
 }
 
+.cgpa-header-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .cgpa-section h2 {
   font-size: 18px;
   margin-bottom: 4px;
+}
+
+.semester-select {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.semester-select select {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 11px;
 }
 
 .cgpa-subtitle {
@@ -240,6 +264,29 @@ button:active {
   border: 1px solid #1f2937;
   padding: 7px 9px;
   font-size: 13px;
+}
+
+.cgpa-row.row-error {
+  border-color: #f97373;
+  animation: shake 0.18s;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Subject name input */
@@ -296,6 +343,14 @@ button:active {
   flex-shrink: 0;
 }
 
+/* Points text */
+.cgpa-points {
+  font-size: 11px;
+  color: #9ca3af;
+  min-width: 90px;
+  text-align: right;
+}
+
 /* Delete subject */
 .cgpa-delete {
   background: transparent;
@@ -322,12 +377,107 @@ button:active {
   font-size: 13px;
   color: #e5e7eb;
   min-height: 18px;
+  margin-top: 2px;
+}
+
+.cgpa-result-secondary {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.cgpa-result.error {
+  color: #fecaca;
+}
+
+/* Helper section */
+.helper-section {
+  margin-top: 20px;
+}
+
+.helper-section h2 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.helper-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.helper-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 11px;
+}
+
+.helper-field label {
+  color: #9ca3af;
+}
+
+.helper-field input {
+  flex: initial;
+  font-size: 12px;
+  padding: 6px 8px;
+}
+
+.helper-btn {
+  width: 100%;
+  margin-top: 2px;
+}
+
+/* Bottom actions */
+.bottom-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.small-btn {
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 999px;
 }
 
 /* Footer */
 .footer {
-  margin-top: 18px;
+  margin-top: 12px;
   font-size: 11px;
   color: #6b7280;
   text-align: center;
+}
+
+/* Screenshot mode */
+.app.screenshot-mode .input-row,
+.app.screenshot-mode .delete-btn,
+.app.screenshot-mode .cgpa-delete,
+.app.screenshot-mode .cgpa-actions,
+.app.screenshot-mode .helper-btn,
+.app.screenshot-mode #screenshotBtn {
+  display: none;
+}
+
+.app.screenshot-mode .cgpa-row {
+  border-color: #4b5563;
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 16px;
+  }
+
+  .cgpa-row {
+    flex-wrap: wrap;
+  }
+
+  .cgpa-points {
+    text-align: left;
+  }
+
+  .helper-grid {
+    grid-template-columns: 1fr;
+  }
 }
