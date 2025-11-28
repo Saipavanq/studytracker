@@ -15,7 +15,6 @@ const STORAGE_CGPA = "studyTracker_cgpa_v1";
 let tasks = [];
 let streak = { count: 0, lastDate: null };
 
-// ----- Load/save basic data -----
 function loadBasicData() {
   try {
     const savedTasks = JSON.parse(localStorage.getItem(STORAGE_TASKS));
@@ -35,7 +34,6 @@ function saveStreak() {
   localStorage.setItem(STORAGE_STREAK, JSON.stringify(streak));
 }
 
-// ----- Streak helpers -----
 function dateString(d) {
   return d.toISOString().slice(0, 10);
 }
@@ -80,7 +78,6 @@ function renderStreak() {
       : `🔥 You're on a ${streak.count}-day study streak!`;
 }
 
-// ----- Tasks UI -----
 function createTaskElement(task, index) {
   const li = document.createElement("li");
   li.className = "task-item";
@@ -101,8 +98,7 @@ function createTaskElement(task, index) {
   checkbox.addEventListener("change", () => {
     const i = Number(li.dataset.index);
     tasks[i].done = checkbox.checked;
-    if (checkbox.checked) span.classList.add("done");
-    else span.classList.remove("done");
+    span.classList.toggle("done", checkbox.checked);
     saveTasks();
   });
 
@@ -112,7 +108,6 @@ function createTaskElement(task, index) {
   const del = document.createElement("button");
   del.className = "delete-btn";
   del.textContent = "✖";
-
   del.addEventListener("click", () => {
     li.classList.add("removing");
     li.addEventListener("animationend", () => {
@@ -131,15 +126,13 @@ function createTaskElement(task, index) {
 function renderTasks() {
   taskList.innerHTML = "";
   tasks.forEach((task, index) => {
-    const item = createTaskElement(task, index);
-    taskList.appendChild(item);
+    taskList.appendChild(createTaskElement(task, index));
   });
 }
 
 function addTask() {
   const text = taskInput.value.trim();
   if (!text) return;
-
   tasks.push({ text, done: false });
   saveTasks();
   updateStreakOnAdd();
@@ -152,7 +145,7 @@ taskInput.addEventListener("keydown", (e) => {
   if (e.key === "Enter") addTask();
 });
 
-// ---------- CGPA Calculator & semesters ----------
+// ---------- CGPA + semesters ----------
 
 const cgpaRows = document.getElementById("cgpaRows");
 const addSubjectBtn = document.getElementById("addSubjectBtn");
@@ -161,16 +154,7 @@ const cgpaResult = document.getElementById("cgpaResult");
 const overallResult = document.getElementById("overallResult");
 const semesterSelect = document.getElementById("semesterSelect");
 
-// grade -> points
-const gradePoints = {
-  S: 10,
-  A: 9,
-  B: 8,
-  C: 7,
-  D: 6,
-  E: 5,
-  F: 4,
-};
+const gradePoints = { S: 10, A: 9, B: 8, C: 7, D: 6, E: 5, F: 4 };
 
 let cgpaState = {
   currentSemester: "1",
@@ -180,16 +164,11 @@ let cgpaState = {
 function loadCgpaState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_CGPA));
-    if (saved && saved.semesters) {
-      cgpaState = saved;
-    }
+    if (saved && saved.semesters) cgpaState = saved;
   } catch (e) {
     console.error("Error loading CGPA data", e);
   }
   if (!cgpaState.semesters) cgpaState.semesters = { "1": [] };
-  if (!cgpaState.semesters[cgpaState.currentSemester]) {
-    cgpaState.currentSemester = "1";
-  }
 }
 
 function saveCgpaState() {
@@ -217,7 +196,6 @@ function renderSubjectRow(subject) {
   subjectInput.className = "cgpa-subject-input";
   subjectInput.placeholder = "Subject name (e.g., DSA)";
   subjectInput.value = subject.name || "";
-
   subjectInput.addEventListener("input", () => {
     subject.name = subjectInput.value;
     saveCgpaState();
@@ -225,7 +203,6 @@ function renderSubjectRow(subject) {
 
   const creditGroup = document.createElement("div");
   creditGroup.className = "credit-toggle-group";
-
   [2, 3, 4].forEach((c) => {
     const btn = document.createElement("button");
     btn.type = "button";
@@ -233,7 +210,6 @@ function renderSubjectRow(subject) {
     btn.textContent = `${c} cr`;
     btn.dataset.credit = String(c);
     if (c === subject.credits) btn.classList.add("active");
-
     btn.addEventListener("click", () => {
       creditGroup
         .querySelectorAll(".credit-toggle")
@@ -244,7 +220,6 @@ function renderSubjectRow(subject) {
       updateSubjectPoints(subject, pointsSpan);
       calculateCgpa(false);
     });
-
     creditGroup.appendChild(btn);
   });
 
@@ -257,7 +232,6 @@ function renderSubjectRow(subject) {
     if (g === subject.grade) opt.selected = true;
     gradeSelect.appendChild(opt);
   });
-
   gradeSelect.addEventListener("change", () => {
     subject.grade = gradeSelect.value;
     saveCgpaState();
@@ -290,21 +264,17 @@ function renderSubjectRow(subject) {
   row.appendChild(delBtn);
 
   cgpaRows.appendChild(row);
-  return row;
 }
 
 function renderCgpaRows() {
   cgpaRows.innerHTML = "";
-  const subjects = getCurrentSubjects();
-  subjects.forEach((sub) => renderSubjectRow(sub));
+  getCurrentSubjects().forEach((sub) => renderSubjectRow(sub));
 }
 
 function calculateCgpa(showErrors = true) {
   const subjectsCurrent = getCurrentSubjects();
   const rows = cgpaRows.querySelectorAll(".cgpa-row");
-
   cgpaResult.classList.remove("error");
-
   rows.forEach((r) => r.classList.remove("row-error"));
 
   if (!subjectsCurrent.length) {
@@ -320,13 +290,11 @@ function calculateCgpa(showErrors = true) {
 
   subjectsCurrent.forEach((sub, index) => {
     const gp = gradePoints[sub.grade] ?? 0;
-
     if (showErrors && (!sub.name || !sub.name.trim())) {
       hadError = true;
       const rowEl = rows[index];
       if (rowEl) rowEl.classList.add("row-error");
     }
-
     currentCredits += sub.credits;
     currentPoints += sub.credits * gp;
   });
@@ -339,19 +307,17 @@ function calculateCgpa(showErrors = true) {
   }
 
   if (!currentCredits) {
-    cgpaResult.textContent = "Total credits in this semester cannot be zero.";
+    cgpaResult.textContent = "Total credits cannot be zero.";
     cgpaResult.classList.add("error");
   } else {
     const sgpa = currentPoints / currentCredits;
-    cgpaResult.textContent = `Semester ${cgpaState.currentSemester} SGPA: ${sgpa.toFixed(
-      2
-    )}`;
+    cgpaResult.textContent = `Semester ${
+      cgpaState.currentSemester
+    } SGPA: ${sgpa.toFixed(2)}`;
   }
 
-  // overall CGPA across all semesters
   let overallCredits = 0;
   let overallPoints = 0;
-
   Object.values(cgpaState.semesters).forEach((subjects) => {
     subjects.forEach((sub) => {
       const gp = gradePoints[sub.grade] ?? 0;
@@ -386,9 +352,10 @@ addSubjectBtn.addEventListener("click", () => {
 calcCgpaBtn.addEventListener("click", () => calculateCgpa(true));
 
 semesterSelect.addEventListener("change", () => {
-  const value = semesterSelect.value;
-  cgpaState.currentSemester = value;
-  if (!cgpaState.semesters[value]) cgpaState.semesters[value] = [];
+  cgpaState.currentSemester = semesterSelect.value;
+  if (!cgpaState.semesters[cgpaState.currentSemester]) {
+    cgpaState.semesters[cgpaState.currentSemester] = [];
+  }
   saveCgpaState();
   renderCgpaRows();
   calculateCgpa(false);
@@ -454,7 +421,7 @@ function calculateTarget() {
 
   if (requiredAvg <= 4) {
     targetResult.textContent =
-      "You can hit your target even with an average around F grade (4). Just don't fail anything badly.";
+      "You can still reach this target with low average grades. Just avoid failing.";
     return;
   }
 
@@ -471,28 +438,53 @@ calcTargetBtn.addEventListener("click", calculateTarget);
 const screenshotBtn = document.getElementById("screenshotBtn");
 const appRoot = document.querySelector(".app");
 
+function setScreenshotMode(on) {
+  appRoot.classList.toggle("screenshot-mode", on);
+  screenshotBtn.textContent = on ? "Exit screenshot mode" : "Screenshot mode";
+}
+
 screenshotBtn.addEventListener("click", () => {
-  appRoot.classList.toggle("screenshot-mode");
+  const nowOn = !appRoot.classList.contains("screenshot-mode");
+  setScreenshotMode(nowOn);
 });
 
 document.addEventListener("keydown", (e) => {
   const tag = e.target.tagName;
   const isInput = tag === "INPUT" || tag === "TEXTAREA";
 
-  // "/" focuses study input
   if (e.key === "/" && !isInput) {
     e.preventDefault();
     taskInput.focus();
   }
 
-  // Ctrl+Enter = calculate CGPA
   if (e.key === "Enter" && e.ctrlKey) {
     e.preventDefault();
     calculateCgpa(true);
   }
+
+  if (e.key === "Escape") {
+    setScreenshotMode(false);
+  }
+});
+
+// ---------- Tabs ----------
+
+const tabButtons = document.querySelectorAll(".tab-btn");
+const panels = document.querySelectorAll(".panel");
+
+tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const tab = btn.dataset.tab;
+    tabButtons.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    panels.forEach((p) => {
+      p.classList.toggle("active", p.dataset.panel === tab);
+    });
+  });
 });
 
 // ---------- Initial load ----------
+
 loadBasicData();
 loadCgpaState();
 

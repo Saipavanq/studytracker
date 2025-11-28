@@ -32,7 +32,44 @@ h1 {
 .subtitle {
   font-size: 13px;
   color: #9ca3af;
+  margin-bottom: 12px;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid #111827;
   margin-bottom: 14px;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  background: transparent;
+  color: #9ca3af;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.tab-btn.active {
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  color: white;
+}
+
+/* Panels */
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
 }
 
 /* Streak */
@@ -204,7 +241,7 @@ button:active {
 .divider {
   border: none;
   border-top: 1px solid rgba(55, 65, 81, 0.8);
-  margin: 18px 0 16px;
+  margin: 12px 0 10px;
 }
 
 /* CGPA section */
@@ -272,24 +309,14 @@ button:active {
 }
 
 @keyframes shake {
-  0% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-2px);
-  }
-  50% {
-    transform: translateX(2px);
-  }
-  75% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
 }
 
-/* Subject name input */
+/* Subject input */
 .cgpa-subject-input {
   flex: 1.4;
   padding: 6px 8px;
@@ -364,7 +391,7 @@ button:active {
   color: #fecaca;
 }
 
-/* Bottom: buttons + result */
+/* CGPA results */
 .cgpa-actions {
   display: flex;
   justify-content: space-between;
@@ -391,7 +418,7 @@ button:active {
 
 /* Helper section */
 .helper-section {
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 .helper-section h2 {
@@ -450,17 +477,22 @@ button:active {
 }
 
 /* Screenshot mode */
+.app.screenshot-mode .tab-bar,
 .app.screenshot-mode .input-row,
 .app.screenshot-mode .delete-btn,
 .app.screenshot-mode .cgpa-delete,
 .app.screenshot-mode .cgpa-actions,
-.app.screenshot-mode .helper-btn,
-.app.screenshot-mode #screenshotBtn {
+.app.screenshot-mode .helper-btn {
   display: none;
 }
 
 .app.screenshot-mode .cgpa-row {
   border-color: #4b5563;
+}
+
+/* Screenshot mode button text hint via class */
+.app.screenshot-mode #screenshotBtn {
+  border-color: #22c55e;
 }
 
 /* Mobile */

@@ -10,95 +10,133 @@
     <h1>📚 Study Tracker</h1>
     <p class="subtitle">Track topics you finished today</p>
 
-    <!-- Streak badge -->
-    <div id="streakBox" class="streak-box">
-      <span id="streakEmoji">💤</span>
-      <span id="streakText">No streak yet. Add a topic to start!</span>
+    <!-- Tabs -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="tracker">Study</button>
+      <button class="tab-btn" data-tab="cgpa">CGPA</button>
+      <button class="tab-btn" data-tab="helper">Target</button>
     </div>
 
-    <!-- Study Tracker -->
-    <div class="input-row">
-      <input
-        id="taskInput"
-        type="text"
-        placeholder="Ex: DSA - Hashing, CN - OSI layers"
-      />
-      <button id="addBtn">Add</button>
-    </div>
-
-    <ul id="taskList"></ul>
-
-    <hr class="divider" />
-
-    <!-- CGPA Calculator -->
-    <section class="cgpa-section">
-      <div class="cgpa-header-line">
-        <h2>🎓 CGPA Calculator</h2>
-        <div class="semester-select">
-          <label for="semesterSelect">Semester</label>
-          <select id="semesterSelect">
-            <option value="1">Sem 1</option>
-            <option value="2">Sem 2</option>
-            <option value="3">Sem 3</option>
-            <option value="4">Sem 4</option>
-            <option value="5">Sem 5</option>
-            <option value="6">Sem 6</option>
-            <option value="7">Sem 7</option>
-            <option value="8">Sem 8</option>
-          </select>
-        </div>
+    <!-- Study Tracker Panel -->
+    <section class="panel panel-tracker active" data-panel="tracker">
+      <!-- Streak badge -->
+      <div id="streakBox" class="streak-box">
+        <span id="streakEmoji">💤</span>
+        <span id="streakText">No streak yet. Add a topic to start!</span>
       </div>
 
-      <p class="cgpa-subtitle">
-        Add your subjects, choose credits (2 / 3 / 4) and grades (S–F).
-      </p>
-
-      <div id="cgpaRows" class="cgpa-rows"></div>
-
-      <div class="cgpa-actions">
-        <button id="addSubjectBtn" class="secondary-btn">+ Add Subject</button>
-        <button id="calcCgpaBtn">Calculate CGPA</button>
+      <div class="input-row">
+        <input
+          id="taskInput"
+          type="text"
+          placeholder="Ex: DSA - Hashing, CN - OSI layers"
+        />
+        <button id="addBtn">Add</button>
       </div>
 
-      <p id="cgpaResult" class="cgpa-result">
-        Enter at least one subject to calculate your CGPA.
-      </p>
-      <p id="overallResult" class="cgpa-result cgpa-result-secondary"></p>
+      <ul id="taskList"></ul>
     </section>
 
-    <!-- Target CGPA helper -->
-    <section class="helper-section">
-      <h2>🎯 Target CGPA Helper</h2>
-      <p class="cgpa-subtitle">
-        Find what average grade you need to reach a target CGPA.
-      </p>
+    <!-- CGPA Calculator Panel -->
+    <section class="panel panel-cgpa" data-panel="cgpa">
+      <hr class="divider" />
 
-      <div class="helper-grid">
-        <div class="helper-field">
-          <label for="currentCgpa">Current CGPA</label>
-          <input id="currentCgpa" type="number" step="0.01" min="0" max="10" />
+      <div class="cgpa-section">
+        <div class="cgpa-header-line">
+          <h2>🎓 CGPA Calculator</h2>
+          <div class="semester-select">
+            <label for="semesterSelect">Semester</label>
+            <select id="semesterSelect">
+              <option value="1">Sem 1</option>
+              <option value="2">Sem 2</option>
+              <option value="3">Sem 3</option>
+              <option value="4">Sem 4</option>
+              <option value="5">Sem 5</option>
+              <option value="6">Sem 6</option>
+              <option value="7">Sem 7</option>
+              <option value="8">Sem 8</option>
+            </select>
+          </div>
         </div>
-        <div class="helper-field">
-          <label for="completedCredits">Completed credits</label>
-          <input id="completedCredits" type="number" step="1" min="0" />
+
+        <p class="cgpa-subtitle">
+          Add your subjects, choose credits (2 / 3 / 4) and grades (S–F).
+        </p>
+
+        <div id="cgpaRows" class="cgpa-rows"></div>
+
+        <div class="cgpa-actions">
+          <button id="addSubjectBtn" class="secondary-btn">+ Add Subject</button>
+          <button id="calcCgpaBtn">Calculate CGPA</button>
         </div>
-        <div class="helper-field">
-          <label for="targetCgpa">Target CGPA</label>
-          <input id="targetCgpa" type="number" step="0.01" min="0" max="10" />
-        </div>
-        <div class="helper-field">
-          <label for="remainingCredits">Remaining credits</label>
-          <input id="remainingCredits" type="number" step="1" min="0" />
-        </div>
+
+        <p id="cgpaResult" class="cgpa-result">
+          Enter at least one subject to calculate your CGPA.
+        </p>
+        <p id="overallResult" class="cgpa-result cgpa-result-secondary"></p>
       </div>
-
-      <button id="calcTargetBtn" class="secondary-btn helper-btn">
-        What grade do I need?
-      </button>
-
-      <p id="targetResult" class="cgpa-result"></p>
     </section>
 
+    <!-- Target Helper Panel -->
+    <section class="panel panel-helper" data-panel="helper">
+      <hr class="divider" />
+
+      <section class="helper-section">
+        <h2>🎯 Target CGPA Helper</h2>
+        <p class="cgpa-subtitle">
+          Find what average grade you need to reach a target CGPA.
+        </p>
+
+        <div class="helper-grid">
+          <div class="helper-field">
+            <label for="currentCgpa">Current CGPA</label>
+            <input
+              id="currentCgpa"
+              type="number"
+              step="0.01"
+              min="0"
+              max="10"
+            />
+          </div>
+          <div class="helper-field">
+            <label for="completedCredits">Completed credits</label>
+            <input
+              id="completedCredits"
+              type="number"
+              step="1"
+              min="0"
+            />
+          </div>
+          <div class="helper-field">
+            <label for="targetCgpa">Target CGPA</label>
+            <input
+              id="targetCgpa"
+              type="number"
+              step="0.01"
+              min="0"
+              max="10"
+            />
+          </div>
+          <div class="helper-field">
+            <label for="remainingCredits">Remaining credits</label>
+            <input
+              id="remainingCredits"
+              type="number"
+              step="1"
+              min="0"
+            />
+          </div>
+        </div>
+
+        <button id="calcTargetBtn" class="secondary-btn helper-btn">
+          What grade do I need?
+        </button>
+
+        <p id="targetResult" class="cgpa-result"></p>
+      </section>
+    </section>
+
+    <!-- Bottom actions -->
     <div class="bottom-actions">
       <button id="screenshotBtn" class="secondary-btn small-btn">
         Screenshot mode
