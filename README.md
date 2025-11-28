@@ -103,7 +103,7 @@ One-click **“Screenshot mode”** for sharing marks or progress:
 
 ## 🚀 Live Demo
 
-> https://studytrackker.netlify.app
+> https://studytraccker.netlify.app
 
 ---
 
