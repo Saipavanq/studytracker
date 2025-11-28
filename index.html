@@ -10,12 +10,13 @@
     <h1>📚 Study Tracker</h1>
     <p class="subtitle">Track topics you finished today</p>
 
-    <!-- 🔥 Streak badge -->
+    <!-- Streak badge -->
     <div id="streakBox" class="streak-box">
       <span id="streakEmoji">💤</span>
       <span id="streakText">No streak yet. Add a topic to start!</span>
     </div>
 
+    <!-- Study Tracker -->
     <div class="input-row">
       <input
         id="taskInput"
@@ -26,6 +27,27 @@
     </div>
 
     <ul id="taskList"></ul>
+
+    <hr class="divider" />
+
+    <!-- CGPA Calculator -->
+    <section class="cgpa-section">
+      <h2>🎓 CGPA Calculator</h2>
+      <p class="cgpa-subtitle">
+        Add your subjects, choose credits (2 / 3 / 4) and grades (S–F).
+      </p>
+
+      <div id="cgpaRows" class="cgpa-rows"></div>
+
+      <div class="cgpa-actions">
+        <button id="addSubjectBtn" class="secondary-btn">+ Add Subject</button>
+        <button id="calcCgpaBtn">Calculate CGPA</button>
+      </div>
+
+      <p id="cgpaResult" class="cgpa-result">
+        Enter at least one subject to calculate your CGPA.
+      </p>
+    </section>
 
     <p class="footer">Made by Pavan for deployment practice 🚀</p>
   </div>

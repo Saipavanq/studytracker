@@ -19,7 +19,7 @@ body {
   color: #e5e7eb;
   padding: 26px 30px;
   border-radius: 24px;
-  width: min(460px, 95vw);
+  width: min(480px, 95vw);
   box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
   border: 1px solid rgba(148, 163, 184, 0.15);
 }
@@ -35,7 +35,7 @@ h1 {
   margin-bottom: 14px;
 }
 
-/* 🔥 Streak */
+/* Streak */
 .streak-box {
   display: inline-flex;
   align-items: center;
@@ -55,6 +55,7 @@ h1 {
   transform: translateY(-1px);
 }
 
+/* Input + button */
 .input-row {
   display: flex;
   gap: 8px;
@@ -104,6 +105,18 @@ button:active {
   box-shadow: 0 8px 18px rgba(59, 130, 246, 0.55);
 }
 
+/* Secondary button (for "Add Subject") */
+.secondary-btn {
+  background: transparent;
+  border: 1px solid #4b5563;
+  box-shadow: none;
+}
+
+.secondary-btn:hover {
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.6);
+}
+
+/* Task list */
 #taskList {
   list-style: none;
   display: flex;
@@ -111,7 +124,7 @@ button:active {
   gap: 8px;
 }
 
-/* 🔄 Task animations */
+/* Task animations */
 .task-item {
   display: flex;
   justify-content: space-between;
@@ -187,6 +200,92 @@ button:active {
   color: #fecaca;
 }
 
+/* Divider */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(55, 65, 81, 0.8);
+  margin: 18px 0 16px;
+}
+
+/* CGPA section */
+.cgpa-section {
+  margin-top: 4px;
+}
+
+.cgpa-section h2 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.cgpa-subtitle {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.cgpa-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cgpa-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.95);
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+  padding: 7px 9px;
+  font-size: 13px;
+}
+
+.cgpa-label {
+  flex: 1;
+  color: #e5e7eb;
+}
+
+.cgpa-select {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #374151;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 12px;
+}
+
+.cgpa-select:focus {
+  outline: 1px solid #3b82f6;
+}
+
+.cgpa-delete {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #f97373;
+}
+
+.cgpa-delete:hover {
+  color: #fecaca;
+}
+
+.cgpa-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.cgpa-result {
+  font-size: 13px;
+  color: #e5e7eb;
+  min-height: 18px;
+}
+
+/* Footer */
 .footer {
   margin-top: 18px;
   font-size: 11px;
