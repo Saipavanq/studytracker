@@ -103,8 +103,7 @@ One-click **“Screenshot mode”** for sharing marks or progress:
 
 ## 🚀 Live Demo
 
-> 🔗 _Add your Netlify URL here_  
-> Example: `https://studytrackker.netlify.app`
+> https://studytrackker.netlify.app
 
 ---
 
