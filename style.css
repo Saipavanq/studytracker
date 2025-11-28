@@ -2,7 +2,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
 }
 
 body {
@@ -10,16 +11,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0f172a;
+  background: #020617;
 }
 
 .app {
-  background: #020617;
+  background: radial-gradient(circle at top left, #1d2538, #020617);
   color: #e5e7eb;
-  padding: 24px 28px;
-  border-radius: 16px;
-  width: min(420px, 95vw);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.7);
+  padding: 26px 30px;
+  border-radius: 24px;
+  width: min(460px, 95vw);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.15);
 }
 
 h1 {
@@ -30,7 +32,27 @@ h1 {
 .subtitle {
   font-size: 13px;
   color: #9ca3af;
+  margin-bottom: 14px;
+}
+
+/* 🔥 Streak */
+.streak-box {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(15, 118, 110, 0.16);
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  font-size: 12px;
+  color: #a5f3fc;
   margin-bottom: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.streak-box.hot {
+  box-shadow: 0 0 14px rgba(248, 113, 113, 0.7);
+  transform: translateY(-1px);
 }
 
 .input-row {
@@ -41,29 +63,45 @@ h1 {
 
 input {
   flex: 1;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 9px 11px;
+  border-radius: 10px;
   border: 1px solid #1f2937;
-  background: #020617;
+  background: rgba(15, 23, 42, 0.9);
   color: #e5e7eb;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: #6b7280;
 }
 
 input:focus {
   outline: 1px solid #3b82f6;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.6);
 }
 
 button {
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 9px 14px;
+  border-radius: 12px;
   border: none;
   cursor: pointer;
-  background: #3b82f6;
+  background: linear-gradient(135deg, #3b82f6, #6366f1);
   color: white;
   font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.55);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 button:hover {
-  filter: brightness(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(59, 130, 246, 0.7);
+}
+
+button:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.55);
 }
 
 #taskList {
@@ -73,15 +111,37 @@ button:hover {
   gap: 8px;
 }
 
+/* 🔄 Task animations */
 .task-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #020617;
+  background: rgba(15, 23, 42, 0.95);
   border: 1px solid #1f2937;
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
+  opacity: 0;
+  transform: translateY(6px) scale(0.98);
+  animation: fadeInTask 0.18s forwards;
+}
+
+@keyframes fadeInTask {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.task-item.removing {
+  animation: fadeOutTask 0.18s forwards;
+}
+
+@keyframes fadeOutTask {
+  to {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
 }
 
 .task-left {
@@ -92,11 +152,25 @@ button:hover {
 
 .task-left input[type="checkbox"] {
   cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: #22c55e;
+  transition: transform 0.12s ease;
+}
+
+.task-left input[type="checkbox"]:checked {
+  transform: scale(1.05);
+}
+
+.task-text {
+  transition: color 0.15s ease, text-decoration-color 0.15s ease,
+    opacity 0.15s ease;
 }
 
 .task-text.done {
   text-decoration: line-through;
   color: #6b7280;
+  opacity: 0.7;
 }
 
 .delete-btn {
@@ -105,10 +179,16 @@ button:hover {
   color: #f97373;
   cursor: pointer;
   font-size: 16px;
+  transition: transform 0.12s ease, color 0.12s ease;
+}
+
+.delete-btn:hover {
+  transform: scale(1.05);
+  color: #fecaca;
 }
 
 .footer {
-  margin-top: 16px;
+  margin-top: 18px;
   font-size: 11px;
   color: #6b7280;
   text-align: center;
